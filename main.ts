@@ -2,69 +2,44 @@
  *
  * Created by: Joshua
  * Created on: April 2026
- * This program ...
+ * This program will show a specific color depending on the light level 
 */
 
 //variables
-let amountOfLight: number
-let neopixelStrip: neopixel.Strip = null
+let lightLevels: number = 0
+const myNeopixelStrip = neopixel.create(DigitalPin.P16, 4, NeoPixelMode.RGB)
 
-//cleanup
-basic.clearScreen()
-neopixelStrip = neopixel.create(DigitalPin.P16, 4, NeoPixelMode.RGB)
-neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.Black))
-neopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.Black))
-neopixelStrip.setPixelColor(2, neopixel.colors(NeoPixelColors.Black))
-neopixelStrip.setPixelColor(3, neopixel.colors(NeoPixelColors.Black))
-neopixelStrip.show()
+//setup
 basic.showIcon(IconNames.Happy)
+myNeopixelStrip.clear()
+myNeopixelStrip.show()
 
-// light up leds
+// code for lighting up neopixels
 input.onButtonPressed(Button.A, function () {
-    // get light level
-    amountOfLight = input.lightLevel()
+    lightLevels = input.lightLevel()
 
-    // show light level
-    basic.clearScreen()
-    basic.showNumber(amountOfLight)
+    // shows the current light level
+    basic.showNumber(lightLevels)
+    myNeopixelStrip.clear()
 
-    if (amountOfLight <= 51) {
-        // show nothing
+    // if lightlevel is greater then 52 the color turns green
+    if (lightLevels > 52) {
+        myNeopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.Green))
     }
 
-    // light up 1 led
-    if (amountOfLight > 52) {
-        neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
+    // if lightlevel is greater then 104 the color turns yellow
+    if (lightLevels > 104) {
+        myNeopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.Yellow ))
     }
 
-    // light up 2 leds
-    if (amountOfLight > 104) {
-        neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.White))
+    // if lightlevel is greater then 156 the color turns orange
+    if (lightLevels > 156) {
+        myNeopixelStrip.setPixelColor(2, neopixel.colors(NeoPixelColors.Orange))
     }
 
-    // light up 3 leds
-    if (amountOfLight > 156) {
-        neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(2, neopixel.colors(NeoPixelColors.White))
+    // if lightlevel is greater then 208 the color turns red
+    if (lightLevels > 208) {
+        myNeopixelStrip.setPixelColor(3, neopixel.colors(NeoPixelColors.Red))
     }
-
-    // light up 4 leds
-    if (amountOfLight > 208) {
-        neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(2, neopixel.colors(NeoPixelColors.White))
-        neopixelStrip.setPixelColor(3, neopixel.colors(NeoPixelColors.White))
-    }
-
-    neopixelStrip.show()
-    basic.pause(2000)
-    neopixelStrip.setPixelColor(0, neopixel.colors(NeoPixelColors.Black))
-    neopixelStrip.setPixelColor(1, neopixel.colors(NeoPixelColors.Black))
-    neopixelStrip.setPixelColor(2, neopixel.colors(NeoPixelColors.Black))
-    neopixelStrip.setPixelColor(3, neopixel.colors(NeoPixelColors.Black))
-    neopixelStrip.show()
-    basic.clearScreen()
-    basic.showIcon(IconNames.Happy)
+    myNeopixelStrip.show()
 })
